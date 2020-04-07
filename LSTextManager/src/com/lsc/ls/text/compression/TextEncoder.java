@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.ls.text.compression;
+package com.lsc.ls.text.compression;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,15 +76,15 @@ public class TextEncoder {
     }
     
     public static void produceTrees(String[] gamescript){
-        System.out.println("sfc.segahr.BusinessLayer.produceTrees() - Producing trees ...");  
+        System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTrees() - Producing trees ...");  
         countSymbols(gamescript);
         makeTrees();
         produceTreeFileBytes();
-        System.out.println("sfc.segahr.BusinessLayer.produceTrees() - Trees produced.");
+        System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTrees() - Trees produced.");
     }  
     
     private static void countSymbols(String[] gamescript){
-        System.out.println("sfc.segahr.BusinessLayer.countSymbols() - Counting symbols ...");
+        System.out.println("com.lsc.ls.text.compression.TextEncoder.countSymbols() - Counting symbols ...");
         Map<Integer,Map<Integer,Integer>> symbolCounters = new HashMap<>();
         byte previousSymbol = (byte)0xFE;
         for (String string : gamescript) {
@@ -156,11 +156,11 @@ public class TextEncoder {
             System.out.println("Counters after character " + index + ":'" + Symbols.TABLE[i&0xFF] 
                     + "' : "+((symbolCounters.get(i)!=null)?symbolCountersToString(symbolCounters.get(i)):"Unused symbol, no tree !"));
         }
-        System.out.println("sfc.segahr.BusinessLayer.countSymbols() - Symbols counted.");        
+        System.out.println("com.lsc.ls.text.compression.TextEncoder.countSymbols() - Symbols counted.");        
     }
     
     private static void makeTrees(){
-        System.out.println("sfc.segahr.BusinessLayer.makeTrees() - Making trees ...");
+        System.out.println("com.lsc.ls.text.compression.TextEncoder.makeTrees() - Making trees ...");
         newHuffmanTrees = new byte[newSymbolCounters.length][];
         newHuffmanSymbols = new byte[newSymbolCounters.length][];
         newHuffmanTreeTopNodes = new HuffmanTreeNode[newSymbolCounters.length];
@@ -204,11 +204,11 @@ public class TextEncoder {
                 System.out.println("Symbol '"+Symbols.TABLE[i]+"' ("+i+") data :\n\t"+Arrays.toString(newHuffmanTrees[i]));
             }
         }
-        System.out.println("sfc.segahr.BusinessLayer.makeTrees() - Trees made.");
+        System.out.println("com.lsc.ls.text.compression.TextEncoder.makeTrees() - Trees made.");
     }
     
     public static void produceTreeFileBytes(){
-        System.out.println("sfc.segahr.BusinessLayer.produceTreeFileBytes() - Producing Tree File Bytes ...");
+        System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTreeFileBytes() - Producing Tree File Bytes ...");
         newHuffmanTreesFileBytes = new byte[0];
         newHuffmantreeOffsetsFileBytes =new byte[255*2];
         short treePointer = 0;
@@ -227,11 +227,11 @@ public class TextEncoder {
             }
             treePointer += newHuffmanTrees[i].length;
         }
-        System.out.println("sfc.segahr.BusinessLayer.produceTreeFileBytes() - Tree File Bytes produced.");
+        System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTreeFileBytes() - Tree File Bytes produced.");
     }  
     
     public static void produceTextbanks(String[] gamescript){
-        System.out.println("sfc.segahr.BusinessLayer.produceTextbanks() - Producing text banks ...");
+        System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTextbanks() - Producing text banks ...");
         newStringBytes = new byte[gamescript.length][];
         byte previousSymbol = (byte)0xFE;
         for(int i = 0;i<gamescript.length;i++){
@@ -309,7 +309,7 @@ public class TextEncoder {
                 textbankIndex++;
             }
         }
-        System.out.println("sfc.segahr.BusinessLayer.produceTextbanks() - Text banks produced.");
+        System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTextbanks() - Text banks produced.");
     }    
     
     public static byte[] getNewHuffmanTreesFileBytes() {

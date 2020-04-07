@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.ls.text.compression;
+package com.lsc.ls.text.compression;
 
 /**
  *
@@ -18,7 +18,7 @@ public class HuffmanTree {
     public HuffmanTree(int index, byte[] data, short offset){
         this.index = index;
         splitTree(data,offset);
-        /* System.out.println("sfc.segahr.HuffmanTree.<init>() - Created new HuffmanTree with following data :"
+        /* System.out.println("lsc.segahr.HuffmanTree.<init>() - Created new HuffmanTree with following data :"
                 + "\nsymbols : " + Arrays.toString(symbols)
                 + "\ntree : " + Arrays.toString(tree)); */
     }

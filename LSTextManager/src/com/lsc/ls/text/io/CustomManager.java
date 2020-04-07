@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.ls.text.io;
+package com.lsc.ls.text.io;
 
-import com.sfc.ls.text.TextManager;
-import com.sfc.ls.text.compression.TextDecoder;
-import com.sfc.ls.text.compression.TextEncoder;
+import com.lsc.ls.text.TextManager;
+import com.lsc.ls.text.compression.TextDecoder;
+import com.lsc.ls.text.compression.TextEncoder;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -32,50 +32,50 @@ public class CustomManager {
     private static byte[] romData;
     
     public static String[] importRom(String romFilePath, int huffmanTreeOffsetsBegin, int huffmanTreeOffsetsEnd, int huffmanTreesOffsetsBegin, int huffmanTreesOffsetsEnd, int textbanksOffsetsPointerOffset, int lastLineIndex){
-        System.out.println("com.sfc.ls.text.io.CustomManager.importRom() - Importing ROM ...");
+        System.out.println("com.lsc.ls.text.io.CustomManager.importRom() - Importing ROM ...");
         CustomManager.openFile(romFilePath);
         CustomManager.parseOffsets(huffmanTreeOffsetsBegin, huffmanTreeOffsetsEnd);
         CustomManager.parseTrees(huffmanTreesOffsetsBegin, huffmanTreesOffsetsEnd);
         String[] gamescript = CustomManager.parseAllTextbanks(textbanksOffsetsPointerOffset, lastLineIndex);        
-        System.out.println("com.sfc.ls.text.io.CustomManager.importRom() - ROM imported.");
+        System.out.println("com.lsc.ls.text.io.CustomManager.importRom() - ROM imported.");
         return gamescript;
     }
     
     public static void exportRom(String[] gamescript, String romFilePath, int huffmanTreeOffsetsOffset, int huffmanTreesOffset, int textbanksPointerOffset, int textbanksOffset){
-        System.out.println("com.sfc.ls.text.io.CustomManager.exportRom() - Exporting ROM ...");
+        System.out.println("com.lsc.ls.text.io.CustomManager.exportRom() - Exporting ROM ...");
         CustomManager.produceTrees(gamescript);
         CustomManager.produceTextbanks(gamescript);
         CustomManager.writeFile(romFilePath, huffmanTreeOffsetsOffset, huffmanTreesOffset, textbanksPointerOffset, textbanksOffset);
-        System.out.println("com.sfc.ls.text.io.CustomManager.exportRom() - ROM exported.");        
+        System.out.println("com.lsc.ls.text.io.CustomManager.exportRom() - ROM exported.");        
     }    
     
     private static void openFile(String romFilePath){
         try {
-            System.out.println("com.sfc.ls.text.io.CustomManager.openFiles() - ROM file path : " + romFilePath);
+            System.out.println("com.lsc.ls.text.io.CustomManager.openFiles() - ROM file path : " + romFilePath);
             romFile = new File(romFilePath);
             romData = Files.readAllBytes(Paths.get(romFile.getAbsolutePath()));
-            System.out.println("com.sfc.ls.text.io.CustomManager.openFiles() - File opened.");
+            System.out.println("com.lsc.ls.text.io.CustomManager.openFiles() - File opened.");
         } catch (IOException ex) {
             Logger.getLogger(CustomManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     private static void parseOffsets(int huffmanTreeOffsetsBegin, int huffmanTreeOffsetsEnd){
-        System.out.println("com.sfc.ls.text.io.CustomManager.parseOffsets() - Parsing offsets ...");
+        System.out.println("com.lsc.ls.text.io.CustomManager.parseOffsets() - Parsing offsets ...");
         byte[] data = Arrays.copyOfRange(romData,huffmanTreeOffsetsBegin,huffmanTreeOffsetsEnd);
         TextDecoder.parseOffsets(data);
-        System.out.println("com.sfc.ls.text.io.CustomManager.parseOffsets() - Offsets parsed.");
+        System.out.println("com.lsc.ls.text.io.CustomManager.parseOffsets() - Offsets parsed.");
     }
     
     private static void parseTrees(int huffmanTreesOffsetsBegin, int huffmanTreesOffsetsEnd){
-        System.out.println("com.sfc.ls.text.io.CustomManager.parseTrees() - Parsing trees ...");
+        System.out.println("com.lsc.ls.text.io.CustomManager.parseTrees() - Parsing trees ...");
         byte[] data = Arrays.copyOfRange(romData,huffmanTreesOffsetsBegin,huffmanTreesOffsetsEnd);
         TextDecoder.parseTrees(data);
-        System.out.println("com.sfc.ls.text.io.CustomManager.parseTrees() - Trees parsed.");
+        System.out.println("com.lsc.ls.text.io.CustomManager.parseTrees() - Trees parsed.");
     }
     
     private static String[] parseAllTextbanks(int textbanksOffsetsPointerOffset, int lastLineIndex){
-        System.out.println("com.sfc.ls.text.io.CustomManager.parseTextbank() - Parsing textbank ...");
+        System.out.println("com.lsc.ls.text.io.CustomManager.parseAllTextbanks() - Parsing all textbanks ...");
         String[] gamescript = new String[0]; 
         byte[] textbanksOffsetsPointerBytes = Arrays.copyOfRange(romData,textbanksOffsetsPointerOffset,textbanksOffsetsPointerOffset+4);
         int textbanksOffsetsPointer = bytesToInt(textbanksOffsetsPointerBytes);
@@ -94,26 +94,26 @@ public class CustomManager {
             System.arraycopy(textbankStrings, 0, workingStringArray, gamescript.length, textbankStrings.length);
             gamescript = workingStringArray;
         }
-        System.out.println("com.sfc.ls.text.io.CustomManager.parseTextbank() - Textbanks all parsed.");
+        System.out.println("com.lsc.ls.text.io.CustomManager.parseAllTextbanks() - Textbanks all parsed.");
         return gamescript;
     }
     
     private static void produceTrees(String[] gamescript) {
-        System.out.println("com.sfc.ls.text.io.CustomManager.produceTrees() - Producing trees ...");
+        System.out.println("com.lsc.ls.text.io.CustomManager.produceTrees() - Producing trees ...");
         TextEncoder.produceTrees(gamescript);
-        System.out.println("com.sfc.ls.text.io.CustomManager.produceTrees() - Trees produced.");
+        System.out.println("com.lsc.ls.text.io.CustomManager.produceTrees() - Trees produced.");
     }
 
     private static void produceTextbanks(String[] gamescript) {
-        System.out.println("com.sfc.ls.text.io.CustomManager.produceTextbanks() - Producing text banks ...");
+        System.out.println("com.lsc.ls.text.io.CustomManager.produceTextbanks() - Producing text banks ...");
         TextEncoder.produceTextbanks(gamescript);
-        System.out.println("com.sfc.ls.text.io.CustomManager.produceTextbanks() - Text banks produced.");
+        System.out.println("com.lsc.ls.text.io.CustomManager.produceTextbanks() - Text banks produced.");
     }    
   
     private static void writeFile(String romFilePath, int huffmanTreeOffsetsOffset, int huffmanTreesOffset, int textbanksPointerOffset, int textbanksOffset){
 
         try {
-            System.out.println("com.sfc.ls.text.io.CustomManager.writeFiles() - Writing file ...");
+            System.out.println("com.lsc.ls.text.io.CustomManager.writeFiles() - Writing file ...");
 
             romFile = new File(romFilePath);
             Path romPath = Paths.get(romFile.getAbsolutePath());
@@ -160,7 +160,7 @@ public class CustomManager {
             
             Files.write(romPath,romData);
             System.out.println(romData.length + " bytes into " + romFilePath);  
-            System.out.println("com.sfc.ls.text.io.CustomManager.writeFiles() - File written.");
+            System.out.println("com.lsc.ls.text.io.CustomManager.writeFiles() - File written.");
         } catch (IOException ex) {
             Logger.getLogger(TextManager.class.getName()).log(Level.SEVERE, null, ex);
         }

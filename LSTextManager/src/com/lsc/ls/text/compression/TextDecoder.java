@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.ls.text.compression;
+package com.lsc.ls.text.compression;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -26,13 +26,13 @@ public class TextDecoder {
             huffmanTreeOffsets = new short[data.length/2];
             ByteBuffer wrappedData = ByteBuffer.wrap(data);
             wrappedData.asShortBuffer().get(huffmanTreeOffsets);
-            System.out.println("com.sfc.ls.text.compression.HuffmanTree.parseOffsets() - huffmanTreeOffsets : "
+            System.out.println("com.lsc.ls.text.compression.TextDecoder.parseOffsets() - huffmanTreeOffsets : "
                 + "\n" + Arrays.toString(huffmanTreeOffsets));
             trees = new HuffmanTree[huffmanTreeOffsets.length];
     }
     
     public static void parseTrees(byte[] data){
-        System.out.println("com.sfc.ls.text.compression.HuffmanTree.parseTrees() - Parsing trees ...");
+        System.out.println("com.lsc.ls.text.compression.TextDecoder.parseTrees() - Parsing trees ...");
         for(int i = 0;i<huffmanTreeOffsets.length;i++){
             if(huffmanTreeOffsets[i]==-1){
                 trees[i] = null;
@@ -41,11 +41,11 @@ public class TextDecoder {
             }
         }
         logTrees();
-        System.out.println("sfc.segahr.BusinessLayer.parseTrees() - Trees parsed.");            
+        System.out.println("com.lsc.ls.text.compression.TextDecoder.parseTrees() - Trees parsed.");            
     }  
     
     private static void logTrees(){
-        System.out.println("com.sfc.ls.text.compression.HuffmanTree.parseOffsets() - Parsed trees :");
+        System.out.println("com.lsc.ls.text.compression.TextDecoder.parseOffsets() - Parsed trees :");
         for(int i = 0;i<trees.length;i++){
             if(trees[i] != null){
                 System.out.println(trees[i].toString());
@@ -53,7 +53,7 @@ public class TextDecoder {
                 System.out.println("No tree for index " + i);
             }
         }
-        System.out.println("com.sfc.ls.text.compression.HuffmanTree.parseOffsets() - End of parsed trees :");
+        System.out.println("com.lsc.ls.text.compression.TextDecoder.parseOffsets() - End of parsed trees :");
     }        
     
     public static String[] parseTextbank(byte[] data, int textbankIndex){
@@ -74,7 +74,7 @@ public class TextDecoder {
             System.out.println("$"+stringIndex+"("+lineLength+")="+s);
             System.out.println(Arrays.toString(Arrays.copyOfRange(data,bankPointer+1,(bankPointer+data[bankPointer]+1))));
             textbankStrings[i] = s;
-            bankPointer += (data[bankPointer]&0xFF)+1;
+            bankPointer += (data[bankPointer]&0xFF);
             if(bankPointer+1>=data.length){
                 textbankStrings = Arrays.copyOfRange(textbankStrings,0,i+1);
                 break;
@@ -86,12 +86,12 @@ public class TextDecoder {
     private static String parseString(byte[] data, short offset){
         StringBuilder string = new StringBuilder();
         StringBuilder bitsString = new StringBuilder();
-        PREVIOUS_SYMBOL = (byte)0xFE;
+        PREVIOUS_SYMBOL = (byte)0x55;
         STRING_BYTE_COUNTER = 0;
         STRING_BIT_COUNTER = 0;
         while(true){
             byte symbol = parseNextSymbol(trees[(int)PREVIOUS_SYMBOL&0xFF],data,offset,bitsString);
-            if((symbol&0xFF) == 0xFE){
+            if((symbol&0xFF) == 0x55){
                 System.out.println(string.toString());
                 break;
             }else{

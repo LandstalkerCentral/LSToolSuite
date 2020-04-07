@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.ls.text.gui;
+package com.lsc.ls.text.gui;
 
 import java.awt.EventQueue;
 import java.io.*;

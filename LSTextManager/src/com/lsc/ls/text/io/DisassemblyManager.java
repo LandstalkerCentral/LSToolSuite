@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.ls.text.io;
+package com.lsc.ls.text.io;
 
-import com.sfc.ls.text.TextManager;
-import com.sfc.ls.text.compression.TextDecoder;
-import com.sfc.ls.text.compression.TextEncoder;
+import com.lsc.ls.text.TextManager;
+import com.lsc.ls.text.compression.TextDecoder;
+import com.lsc.ls.text.compression.TextEncoder;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,48 +27,48 @@ public class DisassemblyManager {
     public static final String TEXTBANK_FILENAME = "textbankXX.bin";  
     
     public static String[] importDisassembly(String basePath){
-        System.out.println("com.sfc.ls.text.io.DisassemblyManager.importDisassembly() - Importing disassembly ...");
+        System.out.println("com.lsc.ls.text.io.DisassemblyManager.importDisassembly() - Importing disassembly ...");
         DisassemblyManager.parseOffsets(basePath);
         DisassemblyManager.parseTrees(basePath);
         String[] gamescript = DisassemblyManager.parseAllTextbanks(basePath);        
-        System.out.println("com.sfc.ls.text.io.DisassemblyManager.importDisassembly() - Disassembly imported.");
+        System.out.println("com.lsc.ls.text.io.DisassemblyManager.importDisassembly() - Disassembly imported.");
         return gamescript;
     }
     
     public static void exportDisassembly(String[] gamescript, String basePath){
-        System.out.println("com.sfc.ls.text.io.DisassemblyManager.exportDisassembly() - Exporting disassembly ...");
+        System.out.println("com.lsc.ls.text.io.DisassemblyManager.exportDisassembly() - Exporting disassembly ...");
         DisassemblyManager.produceTrees(gamescript);
         DisassemblyManager.produceTextbanks(gamescript);
         DisassemblyManager.writeFiles(basePath);
-        System.out.println("com.sfc.ls.text.io.DisassemblyManager.exportDisassembly() - Disassembly exported.");        
+        System.out.println("com.lsc.ls.text.io.DisassemblyManager.exportDisassembly() - Disassembly exported.");        
     }    
     
     private static void parseOffsets(String basePath){
         try{
-            System.out.println("com.sfc.ls.text.io.DisassemblyManager.parseOffsets() - Parsing offsets ...");
+            System.out.println("com.lsc.ls.text.io.DisassemblyManager.parseOffsets() - Parsing offsets ...");
             Path path = Paths.get(basePath + HUFFMANTREEOFFSETS_FILENAME);
             byte[] data = Files.readAllBytes(path);
             TextDecoder.parseOffsets(data);
-            System.out.println("com.sfc.ls.text.io.DisassemblyManager.parseOffsets() - Offsets parsed.");
+            System.out.println("com.lsc.ls.text.io.DisassemblyManager.parseOffsets() - Offsets parsed.");
         } catch(IOException e){
-            System.err.println("com.sfc.ls.text.io.DisassemblyManager.parseOffsets() - Error while parsing huffmanTreeOffsetsFile data : "+e);
+            System.err.println("com.lsc.ls.text.io.DisassemblyManager.parseOffsets() - Error while parsing huffmanTreeOffsetsFile data : "+e);
         }
     }
     
     private static void parseTrees(String basePath){
         try{
-            System.out.println("com.sfc.ls.text.io.DisassemblyManager.parseTrees() - Parsing trees ...");
+            System.out.println("com.lsc.ls.text.io.DisassemblyManager.parseTrees() - Parsing trees ...");
             Path path = Paths.get(basePath + HUFFMANTREES_FILENAME);
             byte[] data = Files.readAllBytes(path);
             TextDecoder.parseTrees(data);
-            System.out.println("com.sfc.ls.text.io.DisassemblyManager.parseTrees() - Trees parsed.");            
+            System.out.println("com.lsc.ls.text.io.DisassemblyManager.parseTrees() - Trees parsed.");            
         } catch(IOException e){
-            System.err.println("com.sfc.ls.text.io.DisassemblyManager.parseTrees() - Error while parsing huffmanTreesFile data : "+e);
+            System.err.println("com.lsc.ls.text.io.DisassemblyManager.parseTrees() - Error while parsing huffmanTreesFile data : "+e);
         }
     }
     
     private static String[] parseAllTextbanks(String basePath){
-        System.out.println("com.sfc.ls.text.io.DisassemblyManager.parseTextbank() - Parsing textbank ...");
+        System.out.println("com.lsc.ls.text.io.DisassemblyManager.parseTextbank() - Parsing textbank ...");
         String[] gamescript = new String[0];        
         try{
             for(int i=0;i<100;i++){
@@ -83,27 +83,27 @@ public class DisassemblyManager {
         }catch(IOException e){
             System.out.println("No more textbank files to parse.");
         }catch(Exception e){
-             System.err.println("com.sfc.ls.text.io.DisassemblyManager.parseTextbank() - Error while parsing textbankFile data : "+e);
+             System.err.println("com.lsc.ls.text.io.DisassemblyManager.parseTextbank() - Error while parsing textbankFile data : "+e);
         } 
-        System.out.println("com.sfc.ls.text.io.DisassemblyManager.parseTextbank() - Textbanks all parsed.");
+        System.out.println("com.lsc.ls.text.io.DisassemblyManager.parseTextbank() - Textbanks all parsed.");
         return gamescript;
     }
     
     private static void produceTrees(String[] gamescript) {
-        System.out.println("com.sfc.ls.text.io.DisassemblyManager.produceTrees() - Producing trees ...");
+        System.out.println("com.lsc.ls.text.io.DisassemblyManager.produceTrees() - Producing trees ...");
         TextEncoder.produceTrees(gamescript);
-        System.out.println("com.sfc.ls.text.io.DisassemblyManager.produceTrees() - Trees produced.");
+        System.out.println("com.lsc.ls.text.io.DisassemblyManager.produceTrees() - Trees produced.");
     }
 
     private static void produceTextbanks(String[] gamescript) {
-        System.out.println("com.sfc.ls.text.io.DisassemblyManager.produceTextbanks() - Producing text banks ...");
+        System.out.println("com.lsc.ls.text.io.DisassemblyManager.produceTextbanks() - Producing text banks ...");
         TextEncoder.produceTextbanks(gamescript);
-        System.out.println("com.sfc.ls.text.io.DisassemblyManager.produceTextbanks() - Text banks produced.");
+        System.out.println("com.lsc.ls.text.io.DisassemblyManager.produceTextbanks() - Text banks produced.");
     }    
   
     private static void writeFiles(String basePath){
         try {
-            System.out.println("com.sfc.ls.text.io.DisassemblyManager.writeFiles() - Writing files ...");
+            System.out.println("com.lsc.ls.text.io.DisassemblyManager.writeFiles() - Writing files ...");
             Path offsetsFilePath = Paths.get(basePath + HUFFMANTREEOFFSETS_FILENAME);
             Path treesFilePath = Paths.get(basePath + HUFFMANTREES_FILENAME);
             Path testbankFilePath = Paths.get(basePath + TEXTBANK_FILENAME);
@@ -120,7 +120,7 @@ public class DisassemblyManager {
                 Files.write(textbankFilePath, newTextbanks[i]);
                 System.out.println(newTextbanks[i].length + " bytes into " + textbankFilePath);
             }
-            System.out.println("com.sfc.ls.text.io.DisassemblyManager.writeFiles() - Files written.");
+            System.out.println("com.lsc.ls.text.io.DisassemblyManager.writeFiles() - Files written.");
         } catch (IOException ex) {
             Logger.getLogger(TextManager.class.getName()).log(Level.SEVERE, null, ex);
         }

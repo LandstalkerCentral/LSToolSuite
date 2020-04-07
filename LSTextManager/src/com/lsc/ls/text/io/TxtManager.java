@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.ls.text.io;
+package com.lsc.ls.text.io;
 
-import com.sfc.ls.text.TextManager;
+import com.lsc.ls.text.TextManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
@@ -25,7 +25,7 @@ public class TxtManager {
     public static String[] importTxt(String filepath){
         String[] gamescript = new String[0];
         try {
-            System.out.println("com.sfc.ls.text.io.CsvManager.importTxt() - Importing TXT ...");
+            System.out.println("com.lsc.ls.text.io.CsvManager.importTxt() - Importing TXT ...");
             Path path = Paths.get(filepath);
             List<String> lines = Files.readAllLines(path, Charset.forName(System.getProperty("file.encoding")));
             gamescript = new String[lines.size()];
@@ -39,7 +39,7 @@ public class TxtManager {
                 }
                 i++;
             }
-            System.out.println("com.sfc.ls.text.io.CsvManager.importTxt() - TXT imported.");
+            System.out.println("com.lsc.ls.text.io.CsvManager.importTxt() - TXT imported.");
         } catch (IOException ex) {
             Logger.getLogger(TextManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -48,7 +48,7 @@ public class TxtManager {
     
     public static void exportTxt(String[] gamescript, String filepath){
         try {
-            System.out.println("com.sfc.ls.text.io.CsvManager.exportTxt() - Exporting TXT ...");
+            System.out.println("com.lsc.ls.text.io.CsvManager.exportTxt() - Exporting TXT ...");
             Path path = Paths.get(filepath);
             PrintWriter pw;
             pw = new PrintWriter(path.toString(),System.getProperty("file.encoding"));
@@ -68,7 +68,7 @@ public class TxtManager {
                 System.out.println("Line "+i+" : "+line);
             }
             pw.close();
-            System.out.println("com.sfc.ls.text.io.CsvManager.exportTxt() - TXT exported.");
+            System.out.println("com.lsc.ls.text.io.CsvManager.exportTxt() - TXT exported.");
         } catch (IOException ex) {
             Logger.getLogger(TextManager.class.getName()).log(Level.SEVERE, null, ex);
         }

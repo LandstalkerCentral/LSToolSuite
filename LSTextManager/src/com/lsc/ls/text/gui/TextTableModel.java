@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.ls.text.gui;
+package com.lsc.ls.text.gui;
 
-import com.sfc.ls.text.TextManager;
+import com.lsc.ls.text.TextManager;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;

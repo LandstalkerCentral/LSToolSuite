@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.ls.text.compression;
+package com.lsc.ls.text.compression;
 
 import java.util.ArrayList;
 import java.util.List;

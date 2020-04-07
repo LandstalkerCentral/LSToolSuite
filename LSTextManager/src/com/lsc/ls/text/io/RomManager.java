@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.ls.text.io;
+package com.lsc.ls.text.io;
 
-import com.sfc.ls.text.TextManager;
-import com.sfc.ls.text.compression.TextDecoder;
-import com.sfc.ls.text.compression.TextEncoder;
+import com.lsc.ls.text.TextManager;
+import com.lsc.ls.text.compression.TextDecoder;
+import com.lsc.ls.text.compression.TextEncoder;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -51,50 +51,50 @@ public class RomManager {
     private static byte[] romData;
     
     public static String[] importRom(int romType, String romFilePath){
-        System.out.println("com.sfc.ls.text.io.RomManager.importRom() - Importing ROM ...");
+        System.out.println("com.lsc.ls.text.io.RomManager.importRom() - Importing ROM ...");
         RomManager.openFile(romFilePath);
         RomManager.parseOffsets(romType);
         RomManager.parseTrees(romType);
         String[] gamescript = RomManager.parseAllTextbanks(romType);        
-        System.out.println("com.sfc.ls.text.io.RomManager.importRom() - ROM imported.");
+        System.out.println("com.lsc.ls.text.io.RomManager.importRom() - ROM imported.");
         return gamescript;
     }
     
     public static void exportRom(int romType, String[] gamescript, String romFilePath){
-        System.out.println("com.sfc.ls.text.io.RomManager.exportRom() - Exporting ROM ...");
+        System.out.println("com.lsc.ls.text.io.RomManager.exportRom() - Exporting ROM ...");
         RomManager.produceTrees(gamescript);
         RomManager.produceTextbanks(gamescript);
         RomManager.writeFile(romType, romFilePath);
-        System.out.println("com.sfc.ls.text.io.RomManager.exportRom() - ROM exported.");        
+        System.out.println("com.lsc.ls.text.io.RomManager.exportRom() - ROM exported.");        
     }    
     
     private static void openFile(String romFilePath){
         try {
-            System.out.println("com.sfc.ls.text.io.RomManager.openFiles() - ROM file path : " + romFilePath);
+            System.out.println("com.lsc.ls.text.io.RomManager.openFiles() - ROM file path : " + romFilePath);
             romFile = new File(romFilePath);
             romData = Files.readAllBytes(Paths.get(romFile.getAbsolutePath()));
-            System.out.println("com.sfc.ls.text.io.RomManager.openFiles() - File opened.");
+            System.out.println("com.lsc.ls.text.io.RomManager.openFiles() - File opened.");
         } catch (IOException ex) {
             Logger.getLogger(RomManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     private static void parseOffsets(int romType){
-        System.out.println("com.sfc.ls.text.io.RomManager.parseOffsets() - Parsing offsets ...");
+        System.out.println("com.lsc.ls.text.io.RomManager.parseOffsets() - Parsing offsets ...");
         byte[] data = Arrays.copyOfRange(romData,HUFFMANTREEOFFSETS_OFFSETS[romType][0],HUFFMANTREEOFFSETS_OFFSETS[romType][1]);
         TextDecoder.parseOffsets(data);
-        System.out.println("com.sfc.ls.text.io.RomManager.parseOffsets() - Offsets parsed.");
+        System.out.println("com.lsc.ls.text.io.RomManager.parseOffsets() - Offsets parsed.");
     }
     
     private static void parseTrees(int romType){
-        System.out.println("com.sfc.ls.text.io.RomManager.parseTrees() - Parsing trees ...");
+        System.out.println("com.lsc.ls.text.io.RomManager.parseTrees() - Parsing trees ...");
         byte[] data = Arrays.copyOfRange(romData,HUFFMANTREES_OFFSETS[romType][0],HUFFMANTREES_OFFSETS[romType][1]);
         TextDecoder.parseTrees(data);
-        System.out.println("com.sfc.ls.text.io.RomManager.parseTrees() - Trees parsed.");
+        System.out.println("com.lsc.ls.text.io.RomManager.parseTrees() - Trees parsed.");
     }
     
     private static String[] parseAllTextbanks(int romType){
-        System.out.println("com.sfc.ls.text.io.RomManager.parseTextbank() - Parsing textbank ...");
+        System.out.println("com.lsc.ls.text.io.RomManager.parseTextbank() - Parsing textbank ...");
         String[] gamescript = new String[0];        
         for(int i=0;i<17;i++){
             String index = Integer.toString(i);
@@ -107,25 +107,25 @@ public class RomManager {
             System.arraycopy(textbankStrings, 0, workingStringArray, gamescript.length, textbankStrings.length);
             gamescript = workingStringArray;
         }
-        System.out.println("com.sfc.ls.text.io.RomManager.parseTextbank() - Textbanks all parsed.");
+        System.out.println("com.lsc.ls.text.io.RomManager.parseTextbank() - Textbanks all parsed.");
         return gamescript;
     }
     
     private static void produceTrees(String[] gamescript) {
-        System.out.println("com.sfc.ls.text.io.RomManager.produceTrees() - Producing trees ...");
+        System.out.println("com.lsc.ls.text.io.RomManager.produceTrees() - Producing trees ...");
         TextEncoder.produceTrees(gamescript);
-        System.out.println("com.sfc.ls.text.io.RomManager.produceTrees() - Trees produced.");
+        System.out.println("com.lsc.ls.text.io.RomManager.produceTrees() - Trees produced.");
     }
 
     private static void produceTextbanks(String[] gamescript) {
-        System.out.println("com.sfc.ls.text.io.RomManager.produceTextbanks() - Producing text banks ...");
+        System.out.println("com.lsc.ls.text.io.RomManager.produceTextbanks() - Producing text banks ...");
         TextEncoder.produceTextbanks(gamescript);
-        System.out.println("com.sfc.ls.text.io.RomManager.produceTextbanks() - Text banks produced.");
+        System.out.println("com.lsc.ls.text.io.RomManager.produceTextbanks() - Text banks produced.");
     }    
   
     private static void writeFile(int romType, String romFilePath){
         try {
-            System.out.println("com.sfc.ls.text.io.RomManager.writeFiles() - Writing file ...");
+            System.out.println("com.lsc.ls.text.io.RomManager.writeFiles() - Writing file ...");
             boolean override = false;
             romFile = new File(romFilePath);
             Path romPath = Paths.get(romFile.getAbsolutePath());
@@ -181,7 +181,7 @@ public class RomManager {
             if(override){
                 System.err.println("ERROR : DATA OVERRIDING HAPPENED. MORE DETAILS IN PREVIOUS LOGS.");
             }
-            System.out.println("com.sfc.ls.text.io.RomManager.writeFiles() - File written.");
+            System.out.println("com.lsc.ls.text.io.RomManager.writeFiles() - File written.");
         } catch (IOException ex) {
             Logger.getLogger(TextManager.class.getName()).log(Level.SEVERE, null, ex);
         }

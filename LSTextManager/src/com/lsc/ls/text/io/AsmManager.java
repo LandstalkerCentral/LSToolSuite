@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.ls.text.io;
+package com.lsc.ls.text.io;
 
-import com.sfc.ls.text.TextManager;
-import com.sfc.ls.text.compression.TextDecoder;
-import com.sfc.ls.text.compression.TextEncoder;
+import com.lsc.ls.text.TextManager;
+import com.lsc.ls.text.compression.TextDecoder;
+import com.lsc.ls.text.compression.TextEncoder;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,7 +30,7 @@ public class AsmManager {
     public static final int INVESTIGATION_LINE_BASE_INDEX = 0x1A7;
     
     public static String[] importAsm(String path, String[] inputscript){
-        System.out.println("com.sfc.ls.text.io.AsmManager.importAsm() - Importing ASM ...");
+        System.out.println("com.lsc.ls.text.io.AsmManager.importAsm() - Importing ASM ...");
         String[] outputscript = inputscript;
         int textCursor=0;
         int baseIndex=-1;
@@ -110,12 +110,12 @@ public class AsmManager {
                         }
                     }
                 }catch(Exception e){
-                    System.err.println("com.sfc.ls.text.io.AsmManager.importAsm() - Error while parsing line at index "+scanLineNumber+" : "+e);
+                    System.err.println("com.lsc.ls.text.io.AsmManager.importAsm() - Error while parsing line at index "+scanLineNumber+" : "+e);
                     e.printStackTrace();
                 }
             }          
         }catch(Exception e){
-             System.err.println("com.sfc.ls.text.io.AsmManager.importAsm() - Error while parsing line at index "+scanLineNumber+" : "+e);
+             System.err.println("com.lsc.ls.text.io.AsmManager.importAsm() - Error while parsing line at index "+scanLineNumber+" : "+e);
              e.printStackTrace();
         }    
         for(int i=0;i<outputscript.length;i++){
@@ -123,7 +123,7 @@ public class AsmManager {
                 outputscript[i]="";
             }
         }
-        System.out.println("com.sfc.ls.text.io.AsmManager.importAsm() - ASM imported.");
+        System.out.println("com.lsc.ls.text.io.AsmManager.importAsm() - ASM imported.");
         return outputscript;
     }
 
