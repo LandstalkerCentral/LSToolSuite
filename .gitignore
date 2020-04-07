@@ -1,0 +1,4 @@
+**/*.bak
+**/nbproject/private/*
+**/build/*
+**/dist/
