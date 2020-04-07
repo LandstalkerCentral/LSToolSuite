@@ -96,7 +96,7 @@ public class Symbols {
                                             "{52}", // TO FIGURE OUT                                                                           
                                             "{53}", // TO FIGURE OUT                                                                           
                                             "{54}", // TO FIGURE OUT                                                                           
-                                            "{55}", // TO FIGURE OUT                                                                           
+                                            "(START/EOL)",                                                                           
                                             "{CURSOR}", // Blinking arrow                                                                          
                                             "{LF}", // Line Feed                                                                          
                                             "{YESNO}", // Yes/No                                                                          
