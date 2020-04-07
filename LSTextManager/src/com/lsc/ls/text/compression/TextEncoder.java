@@ -75,19 +75,19 @@ public class TextEncoder {
         }
     }
     
-    public static void produceTrees(String[] gamescript){
+    public static void produceTrees(String[] textlines){
         System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTrees() - Producing trees ...");  
-        countSymbols(gamescript);
+        countSymbols(textlines);
         makeTrees();
         produceTreeFileBytes();
         System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTrees() - Trees produced.");
     }  
     
-    private static void countSymbols(String[] gamescript){
+    private static void countSymbols(String[] textlines){
         System.out.println("com.lsc.ls.text.compression.TextEncoder.countSymbols() - Counting symbols ...");
         Map<Integer,Map<Integer,Integer>> symbolCounters = new HashMap<>();
-        byte previousSymbol = (byte)0xFE;
-        for (String string : gamescript) {
+        byte previousSymbol = (byte)0x55;
+        for (String string : textlines) {
             System.out.println(string);
             int stringPointer = 0;
             int symbolsPointer = 0;
@@ -118,12 +118,12 @@ public class TextEncoder {
                     }
                 }
             }
-            symbols[symbolsPointer] = (byte)0xFE;
+            symbols[symbolsPointer] = (byte)0x55;
             if(symbolsPointer<stringPointer){
                 symbols = Arrays.copyOf(symbols,symbolsPointer+1);
             }
             System.out.println("Symbol bytes : "+Arrays.toString(symbols));
-            previousSymbol = (byte)0xFE;
+            previousSymbol = (byte)0x55;
             for(int l=0;l<symbols.length;l++){
                 if(!symbolCounters.containsKey(previousSymbol&0xFF)){
                     symbolCounters.put(previousSymbol&0xFF,new HashMap<Integer,Integer>());
@@ -144,7 +144,7 @@ public class TextEncoder {
         }
         List<Integer> sortedKeys=new ArrayList<>(symbolCounters.keySet());
         Collections.sort(sortedKeys);
-        newSymbolCounters = new Map[256];
+        newSymbolCounters = new Map[Symbols.TABLE.length];
         for(Integer i : sortedKeys){
             newSymbolCounters[i] = symbolCounters.get(i);
         }
@@ -210,9 +210,9 @@ public class TextEncoder {
     public static void produceTreeFileBytes(){
         System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTreeFileBytes() - Producing Tree File Bytes ...");
         newHuffmanTreesFileBytes = new byte[0];
-        newHuffmantreeOffsetsFileBytes =new byte[255*2];
+        newHuffmantreeOffsetsFileBytes =new byte[Symbols.TABLE.length*2];
         short treePointer = 0;
-        for(int i=0;i<255;i++){
+        for(int i=0;i<Symbols.TABLE.length;i++){
             treePointer += newHuffmanSymbols[i].length;
             byte[] workingByteArray = Arrays.copyOf(newHuffmanTreesFileBytes, newHuffmanTreesFileBytes.length + newHuffmanSymbols[i].length + newHuffmanTrees[i].length);
             System.arraycopy(newHuffmanSymbols[i], 0, workingByteArray, newHuffmanTreesFileBytes.length, newHuffmanSymbols[i].length);
@@ -230,12 +230,12 @@ public class TextEncoder {
         System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTreeFileBytes() - Tree File Bytes produced.");
     }  
     
-    public static void produceTextbanks(String[] gamescript){
+    public static void produceTextbanks(String[] textlines){
         System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTextbanks() - Producing text banks ...");
-        newStringBytes = new byte[gamescript.length][];
-        byte previousSymbol = (byte)0xFE;
-        for(int i = 0;i<gamescript.length;i++){
-            String string = gamescript[i];
+        newStringBytes = new byte[textlines.length][];
+        byte previousSymbol = (byte)0x55;
+        for(int i = 0;i<textlines.length;i++){
+            String string = textlines[i];
             System.out.println(string);
             int stringPointer = 0;
             int symbolsPointer = 0;
@@ -266,12 +266,12 @@ public class TextEncoder {
                     }
                 }
             }
-            symbols[symbolsPointer] = (byte)0xFE;
+            symbols[symbolsPointer] = (byte)0x55;
             if(symbolsPointer<stringPointer){
                 symbols = Arrays.copyOf(symbols,symbolsPointer+1);
             }
             System.out.println("Symbol bytes : "+Arrays.toString(symbols));
-            previousSymbol = (byte)0xFE;
+            previousSymbol = (byte)0x55;
             StringBuilder sb = new StringBuilder();
             for(int l=0;l<symbols.length;l++){
                 sb.append(newHuffmanTreeTopNodes[previousSymbol&0xFF].getCodeBitString(symbols[l]));

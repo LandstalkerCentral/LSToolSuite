@@ -24,7 +24,7 @@ public class DisassemblyManager {
     
     public static final String HUFFMANTREEOFFSETS_FILENAME = "huffmantreeoffsets.bin";
     public static final String HUFFMANTREES_FILENAME = "huffmantrees.bin";
-    public static final String TEXTBANK_FILENAME = "textbankXX.bin";  
+    public static final String TEXTBANK_FILENAME = "textbankX.bin";  
     
     public static String[] importDisassembly(String basePath){
         System.out.println("com.lsc.ls.text.io.DisassemblyManager.importDisassembly() - Importing disassembly ...");
@@ -72,8 +72,8 @@ public class DisassemblyManager {
         String[] gamescript = new String[0];        
         try{
             for(int i=0;i<100;i++){
-                String index = String.format("%02d", i);
-                Path path = Paths.get(basePath + TEXTBANK_FILENAME.replace("XX.bin", index+".bin"));
+                String index = String.format("%01d", i);
+                Path path = Paths.get(basePath + TEXTBANK_FILENAME.replace("X.bin", index+".bin"));
                 byte[] data = Files.readAllBytes(path); 
                 String[] textbankStrings = TextDecoder.parseTextbank(data, i);
                 String[] workingStringArray = Arrays.copyOf(gamescript, gamescript.length + textbankStrings.length);
@@ -115,8 +115,8 @@ public class DisassemblyManager {
             Files.write(treesFilePath, newHuffmanTreesFileBytes);
             System.out.println(newHuffmanTreesFileBytes.length + " bytes into " + treesFilePath);
             for(int i=0;i<newTextbanks.length;i++){
-                String index = String.format("%02d", i);
-                Path textbankFilePath = Paths.get(testbankFilePath.toString().replace("XX.bin", index+".bin"));
+                String index = String.format("%01d", i);
+                Path textbankFilePath = Paths.get(testbankFilePath.toString().replace("X.bin", index+".bin"));
                 Files.write(textbankFilePath, newTextbanks[i]);
                 System.out.println(newTextbanks[i].length + " bytes into " + textbankFilePath);
             }
