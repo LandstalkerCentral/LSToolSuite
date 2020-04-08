@@ -227,6 +227,9 @@ public class TextEncoder {
             }
             treePointer += newHuffmanTrees[i].length;
         }
+        if((newHuffmanTreesFileBytes.length%2)!=0){
+            newHuffmanTreesFileBytes = Arrays.copyOf(newHuffmanTreesFileBytes, newHuffmanTreesFileBytes.length + 1);
+        }
         System.out.println("com.lsc.ls.text.compression.TextEncoder.produceTreeFileBytes() - Tree File Bytes produced.");
     }  
     
@@ -284,7 +287,7 @@ public class TextEncoder {
             for(int m=0;m<sb.length();m+=8){
                 Byte b = (byte)Integer.parseInt(sb.substring(m, m+8), 2);
                 stringBytes[m/8] = b;
-            }
+            }           
             newStringBytes[i] = stringBytes;
             System.out.println(string+"\n"+sb.toString()+"->"+Arrays.toString(stringBytes));
             
@@ -303,6 +306,9 @@ public class TextEncoder {
             stringIndex++;
             if(stringIndex==256||i==newStringBytes.length-1){
                 newTextbank = textbankBytes;
+                if((newTextbank.length%2)!=0){
+                    newTextbank = Arrays.copyOf(newTextbank, newTextbank.length + 1);
+                } 
                 newTextbanks[textbankIndex] = newTextbank;
                 textbankBytes = new byte[0];
                 stringIndex = 0;
