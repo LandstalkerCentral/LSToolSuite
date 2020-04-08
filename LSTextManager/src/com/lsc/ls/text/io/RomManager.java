@@ -26,44 +26,42 @@ import java.util.logging.Logger;
  */
 public class RomManager {
     
-    public static final int ORIGINAL_ROM_TYPE = 0;
-    public static final int CARAVAN_ROM_TYPE = 1;
+    private static final int LINES_PER_BANK = 256;
     
-    private static final int[][] HUFFMANTREEOFFSETS_OFFSETS = {   {0x2E196,0x2E394},
-                                                            {0x2E196,0x2E394}
+    public static final int ORIGINAL_ROM_TYPE = 0;
+    public static final int ALTERNATE_ROM_TYPE = 1; // Keeping principle from SF2's CARAVAN_ROM_TYPE just in case.
+    
+    private static final int[][] HUFFMANTREEOFFSETS_OFFSETS = {   {0x23D60,0x23E38},
+                                                            {0x23D60,0x23E38}
                                                         };
-    private static final int[][] HUFFMANTREES_OFFSETS = { {0x2E394,0x2EB34},
-                                                    {0x2E394,0x2EB34}
+    private static final int[][] HUFFMANTREES_OFFSETS = { {0x23E38,0x2469C},
+                                                    {0x23E38,0x2469C}
                                                     };
-    private static final int[][] TEXTBANKS_OFFSETS = {{   0x2EB34,0x2FB37,0x30A54,0x3233E,
-                                                    0x3383D,0x34B2F,0x35F92,0x37230,
-                                                    0x3850B,0x39751,0x3A86F,0x3BA41,
-                                                    0x3CB4D,0x3DD71,0x3F173,0x40378,
-                                                    0x4151E,0x41FDA},
-                                                {   0x2EB34-0x2EB34+0x18009C,0x2FB37-0x2EB34+0x18009C,0x30A54-0x2EB34+0x18009C,0x3233E-0x2EB34+0x18009C,
-                                                    0x3383D-0x2EB34+0x18009C,0x34B2F-0x2EB34+0x18009C,0x35F92-0x2EB34+0x18009C,0x37230-0x2EB34+0x18009C,
-                                                    0x3850B-0x2EB34+0x18009C,0x39751-0x2EB34+0x18009C,0x3A86F-0x2EB34+0x18009C,0x3BA41-0x2EB34+0x18009C,
-                                                    0x3CB4D-0x2EB34+0x18009C,0x3DD71-0x2EB34+0x18009C,0x3F173-0x2EB34+0x18009C,0x40378-0x2EB34+0x18009C,
-                                                    0x4151E-0x2EB34+0x18009C,0x41FDA-0x2EB34+0x18009C}
+    private static final int[][] TEXTBANKS_OFFSETS = {{   0x2B27A,0x2C29B,0x2DCC8,0x2F787,
+                                                    0x3153E,0x330AB,0x34830,0x36087,
+                                                    0x377E3,0x38368},
+                                                {   0x2B27A,0x2C29B,0x2DCC8,0x2F787,
+                                                    0x3153E,0x330AB,0x34830,0x36087,
+                                                    0x377E3,0x38368}
                                                 };
     
     private static File romFile;  
     private static byte[] romData;
     
-    public static String[] importRom(int romType, String romFilePath){
+    public static String[] importRom(int romType, String romFilePath, int lastLineIndex){
         System.out.println("com.lsc.ls.text.io.RomManager.importRom() - Importing ROM ...");
         RomManager.openFile(romFilePath);
         RomManager.parseOffsets(romType);
         RomManager.parseTrees(romType);
-        String[] gamescript = RomManager.parseAllTextbanks(romType);        
+        String[] textlines = RomManager.parseAllTextbanks(romType, lastLineIndex);        
         System.out.println("com.lsc.ls.text.io.RomManager.importRom() - ROM imported.");
-        return gamescript;
+        return textlines;
     }
     
-    public static void exportRom(int romType, String[] gamescript, String romFilePath){
+    public static void exportRom(int romType, String[] textlines, String romFilePath){
         System.out.println("com.lsc.ls.text.io.RomManager.exportRom() - Exporting ROM ...");
-        RomManager.produceTrees(gamescript);
-        RomManager.produceTextbanks(gamescript);
+        RomManager.produceTrees(textlines);
+        RomManager.produceTextbanks(textlines);
         RomManager.writeFile(romType, romFilePath);
         System.out.println("com.lsc.ls.text.io.RomManager.exportRom() - ROM exported.");        
     }    
@@ -93,33 +91,32 @@ public class RomManager {
         System.out.println("com.lsc.ls.text.io.RomManager.parseTrees() - Trees parsed.");
     }
     
-    private static String[] parseAllTextbanks(int romType){
+    private static String[] parseAllTextbanks(int romType, int lastLineIndex){
         System.out.println("com.lsc.ls.text.io.RomManager.parseTextbank() - Parsing textbank ...");
-        String[] gamescript = new String[0];        
-        for(int i=0;i<17;i++){
-            String index = Integer.toString(i);
-            while(index.length()<2){
-                index = "0"+index;
-            }
+        String[] textlines = new String[0];     
+        int numberOfTextbanks = (lastLineIndex+1 + LINES_PER_BANK-1) / LINES_PER_BANK;
+        int lastTextbankLines = ((lastLineIndex+1) % LINES_PER_BANK);
+        for(int i=0;i<9;i++){
+            int linesToParse = (i==numberOfTextbanks-1)? lastTextbankLines : LINES_PER_BANK;
             byte[] data = Arrays.copyOfRange(romData,TEXTBANKS_OFFSETS[romType][i],TEXTBANKS_OFFSETS[romType][i+1]); 
-            String[] textbankStrings = TextDecoder.parseTextbank(data, i);
-            String[] workingStringArray = Arrays.copyOf(gamescript, gamescript.length + textbankStrings.length);
-            System.arraycopy(textbankStrings, 0, workingStringArray, gamescript.length, textbankStrings.length);
-            gamescript = workingStringArray;
+            String[] textbankStrings = TextDecoder.parseTextbank(data, i, linesToParse);
+            String[] workingStringArray = Arrays.copyOf(textlines, textlines.length + textbankStrings.length);
+            System.arraycopy(textbankStrings, 0, workingStringArray, textlines.length, textbankStrings.length);
+            textlines = workingStringArray;
         }
         System.out.println("com.lsc.ls.text.io.RomManager.parseTextbank() - Textbanks all parsed.");
-        return gamescript;
+        return textlines;
     }
     
-    private static void produceTrees(String[] gamescript) {
+    private static void produceTrees(String[] textlines) {
         System.out.println("com.lsc.ls.text.io.RomManager.produceTrees() - Producing trees ...");
-        TextEncoder.produceTrees(gamescript);
+        TextEncoder.produceTrees(textlines);
         System.out.println("com.lsc.ls.text.io.RomManager.produceTrees() - Trees produced.");
     }
 
-    private static void produceTextbanks(String[] gamescript) {
+    private static void produceTextbanks(String[] textlines) {
         System.out.println("com.lsc.ls.text.io.RomManager.produceTextbanks() - Producing text banks ...");
-        TextEncoder.produceTextbanks(gamescript);
+        TextEncoder.produceTextbanks(textlines);
         System.out.println("com.lsc.ls.text.io.RomManager.produceTextbanks() - Text banks produced.");
     }    
   
@@ -154,9 +151,6 @@ public class RomManager {
             byte[][] newTextbanks = TextEncoder.getNewTextbanks();
             for(int i=0;i<newTextbanks.length;i++){
                 String index = String.valueOf(i);
-                while(index.length()<2){
-                    index = "0"+index;
-                }
                 System.arraycopy(newTextbanks[i], 0, romData, TEXTBANKS_OFFSETS[romType][i], newTextbanks[i].length);
                 int sizeComparison = (TEXTBANKS_OFFSETS[romType][i+1]-TEXTBANKS_OFFSETS[romType][i]) - newTextbanks[i].length;
                 StringBuilder sb = new StringBuilder();

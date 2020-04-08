@@ -31,9 +31,9 @@ public class TextManager {
         System.out.println("com.lsc.ls.text.TextManager.importDisassembly() - Disassembly exported.");        
     }   
     
-    public static void importOriginalRom(String originalRomFilePath){
+    public static void importOriginalRom(String originalRomFilePath, int lastLineIndex){
         System.out.println("com.lsc.ls.text.TextManager.importOriginalRom() - Importing original ROM ...");
-        TextManager.gamescript = RomManager.importRom(RomManager.ORIGINAL_ROM_TYPE,originalRomFilePath);
+        TextManager.gamescript = RomManager.importRom(RomManager.ORIGINAL_ROM_TYPE,originalRomFilePath, lastLineIndex);
         System.out.println("com.lsc.ls.text.TextManager.importOriginalRom() - Original ROM imported.");
     }
     
@@ -43,15 +43,15 @@ public class TextManager {
         System.out.println("com.lsc.ls.text.TextManager.exportOriginalRom() - Original ROM exported.");        
     }   
     
-    public static void importCaravanRom(String caravanRomFilePath){
+    public static void importAlternateRom(String caravanRomFilePath, int lastLineIndex){
         System.out.println("com.lsc.ls.text.TextManager.importCaravanRom() - Importing Caravan ROM ...");
-        TextManager.gamescript = RomManager.importRom(RomManager.CARAVAN_ROM_TYPE,caravanRomFilePath);
+        TextManager.gamescript = RomManager.importRom(RomManager.ALTERNATE_ROM_TYPE,caravanRomFilePath, lastLineIndex);
         System.out.println("com.lsc.ls.text.TextManager.importCaravanRom() - Caravan ROM imported.");
     }
     
     public static void exportCaravanRom(String caravanRomFilePath){
         System.out.println("com.lsc.ls.text.TextManager.exportCaravanRom() - Exporting Caravan ROM ...");
-        RomManager.exportRom(RomManager.CARAVAN_ROM_TYPE, TextManager.gamescript, caravanRomFilePath);
+        RomManager.exportRom(RomManager.ALTERNATE_ROM_TYPE, TextManager.gamescript, caravanRomFilePath);
         System.out.println("com.lsc.ls.text.TextManager.exportCaravanRom() - Caravan ROM exported.");        
     } 
     

@@ -99,6 +99,8 @@ public class MainEditor extends javax.swing.JFrame {
         jButton22 = new javax.swing.JButton();
         jButton23 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jTextField34 = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jTextField11 = new javax.swing.JTextField();
@@ -288,6 +290,15 @@ public class MainEditor extends javax.swing.JFrame {
 
             jLabel4.setText("<html>Select a 2MB US ROM in BIN format (not SMD !)</html>");
 
+            jLabel35.setText("Max Index : $");
+
+            jTextField34.setText("87E");
+            jTextField34.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jTextField34ActionPerformed(evt);
+                }
+            });
+
             javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
             jPanel6.setLayout(jPanel6Layout);
             jPanel6Layout.setHorizontalGroup(
@@ -297,8 +308,12 @@ public class MainEditor extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel6Layout.createSequentialGroup()
                             .addGap(6, 6, 6)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel35)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextField34, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(27, 27, 27)
                             .addComponent(jButton23))
                         .addGroup(jPanel6Layout.createSequentialGroup()
                             .addComponent(jLabel16)
@@ -318,8 +333,11 @@ public class MainEditor extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButton23)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel35)))
+                    .addContainerGap(30, Short.MAX_VALUE))
             );
 
             jTabbedPane1.addTab("Original ROM", jPanel6);
@@ -1126,7 +1144,8 @@ public class MainEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField11ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        TextManager.importOriginalRom(jTextField16.getText());
+        int lastLineIndex = Integer.parseInt(jTextField34.getText(),16);
+        TextManager.importOriginalRom(jTextField16.getText(), lastLineIndex);
         jTable1.setModel(new TextTableModel(TextManager.gamescript));
         jTabbedPane1.remove(jPanel2);
         jTabbedPane1.add("ASM",jPanel2);
@@ -1268,6 +1287,10 @@ public class MainEditor extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton36ActionPerformed
 
+    private void jTextField34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField34ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField34ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1367,6 +1390,7 @@ public class MainEditor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
@@ -1409,6 +1433,7 @@ public class MainEditor extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField31;
     private javax.swing.JTextField jTextField32;
     private javax.swing.JTextField jTextField33;
+    private javax.swing.JTextField jTextField34;
     private javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables
 
