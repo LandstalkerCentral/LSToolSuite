@@ -92,15 +92,15 @@ public class Symbols {
                                             "(",                                                                                  
                                             ")",                                                                                  
                                             "=",                                                                              
-                                            "{51}", // TO FIGURE OUT                                                                           
-                                            "{52}", // TO FIGURE OUT                                                                           
-                                            "{53}", // TO FIGURE OUT                                                                           
-                                            "{54}", // TO FIGURE OUT                                                                           
+                                            "{51}", // Upper Left Arrow                                                                           
+                                            "{52}", // Upper Right Arrow                                                                          
+                                            "{53}", // Bottom Right Arrow                                                                           
+                                            "{54}", // Bottom Left Arrow                                                                          
                                             "(START/EOL)",                                                                           
                                             "{CURSOR}", // Blinking arrow                                                                          
                                             "{LF}", // Line Feed                                                                          
                                             "{YESNO}", // Yes/No                                                                          
-                                            "{DELAY}", // Wait                                                                          
+                                            "{DELAY_LONG}", // Wait                                                                          
                                             "{NUMBER}", //90 // Numeric Value
                                             "{CHARNAME}", // Character name
                                             "\\UNUSED", 
@@ -111,7 +111,7 @@ public class Symbols {
                                             "\\UNUSED",
                                             "{CLR}", // Clear Panel
                                             "\\UNUSED",
-                                            "{64}", // TO FIGURE OUT
+                                            "{DELAY_SHORT}",
                                             "\\UNUSED",
                                             "\\UNUSED",
                                             "\\UNUSED",
